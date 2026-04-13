@@ -7,8 +7,8 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-title" content="קניות">
 <meta name="theme-color" content="#2e7d32">
-<link rel="icon" type="image/png" href="bg.png">
-<link rel="apple-touch-icon" href="bg.png">
+<link rel="icon" type="image/png" href="bg.jpg">
+<link rel="apple-touch-icon" href="bg.jpg">
 <link rel="manifest" id="mf-shop">
 <script>
 window.addEventListener('DOMContentLoaded',()=>{
@@ -17,8 +17,8 @@ window.addEventListener('DOMContentLoaded',()=>{
     start_url:".",display:"standalone",
     background_color:"#2e7d32",theme_color:"#2e7d32",
     icons:[
-      {src:"bg.png",sizes:"192x192",type:"image/png",purpose:"any maskable"},
-      {src:"bg.png",sizes:"512x512",type:"image/png",purpose:"any maskable"}
+      {src:"bg.jpg",sizes:"192x192",type:"image/png",purpose:"any maskable"},
+      {src:"bg.jpg",sizes:"512x512",type:"image/png",purpose:"any maskable"}
     ]
   };
   const url=URL.createObjectURL(new Blob([JSON.stringify(m)],{type:'application/json'}));
@@ -34,7 +34,7 @@ window.addEventListener('DOMContentLoaded',()=>{
 @import url('https://fonts.googleapis.com/css2?family=Heebo:wght@400;600;700;900&display=swap');
 *{margin:0;padding:0;box-sizing:border-box}
 body{
-  background-image: url("bg.png");
+  background-image: url("bg.jpg");
   background-size: cover;
   background-position: center;
   background-attachment: fixed;
@@ -136,7 +136,7 @@ body::before{
 <body>
 
 <div id="hdr">
-  <h1><img src="bg.png" style="height:40px;width:40px;object-fit:cover;border-radius:50%;border:2px solid rgba(255,255,255,.4)"> רשימת קניות <button id="inst-btn" onclick="window._install&&window._install()" style="display:none;background:rgba(255,255,255,.25);border:1px solid rgba(255,255,255,.5);color:#fff;border-radius:16px;padding:4px 12px;font-family:Heebo;font-size:12px;font-weight:700;cursor:pointer;margin-right:auto">📲 התקן</button></h1>
+  <h1><img src="bg.jpg" style="height:40px;width:40px;object-fit:cover;border-radius:50%;border:2px solid rgba(255,255,255,.4)"> רשימת קניות <button id="inst-btn" onclick="window._install&&window._install()" style="display:none;background:rgba(255,255,255,.25);border:1px solid rgba(255,255,255,.5);color:#fff;border-radius:16px;padding:4px 12px;font-family:Heebo;font-size:12px;font-weight:700;cursor:pointer;margin-right:auto">📲 התקן</button></h1>
   <input type="text" id="search" placeholder="🔍 חפש מוצר..." oninput="filterItems()">
 </div>
 
