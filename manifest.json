@@ -1,0 +1,25 @@
+{
+  "name": "רשימת קניות",
+  "short_name": "קניות",
+  "description": "רשימת קניות חכמה",
+  "start_url": "/shopping/",
+  "scope": "/shopping/",
+  "display": "standalone",
+  "background_color": "#2e7d32",
+  "theme_color": "#2e7d32",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "bg.jpg",
+      "sizes": "192x192",
+      "type": "image/jpeg",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "bg.jpg",
+      "sizes": "512x512",
+      "type": "image/jpeg",
+      "purpose": "any maskable"
+    }
+  ]
+}

@@ -9,26 +9,7 @@
 <meta name="theme-color" content="#2e7d32">
 <link rel="icon" type="image/png" href="bg.jpg">
 <link rel="apple-touch-icon" href="bg.jpg">
-<link rel="manifest" id="mf-shop">
-<script>
-window.addEventListener('DOMContentLoaded',()=>{
-  const m={
-    name:"רשימת קניות",short_name:"קניות",
-    start_url:".",display:"standalone",
-    background_color:"#2e7d32",theme_color:"#2e7d32",
-    icons:[
-      {src:"bg.jpg",sizes:"192x192",type:"image/png",purpose:"any maskable"},
-      {src:"bg.jpg",sizes:"512x512",type:"image/png",purpose:"any maskable"}
-    ]
-  };
-  const url=URL.createObjectURL(new Blob([JSON.stringify(m)],{type:'application/json'}));
-  document.getElementById('mf-shop').href=url;
-  let dp;
-  window.addEventListener('beforeinstallprompt',e=>{e.preventDefault();dp=e;
-    const b=document.getElementById('inst-btn');if(b)b.style.display='flex';});
-  window._install=()=>{if(dp)dp.prompt();};
-});
-</script>
+<link rel="manifest" href="manifest.json">
 <title>🛒 רשימת קניות</title>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Heebo:wght@400;600;700;900&display=swap');
