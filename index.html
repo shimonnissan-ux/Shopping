@@ -4,128 +4,136 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-title" content="קניות">
 <meta name="theme-color" content="#2e7d32">
-<link rel="icon" type="image/png" href="bg.jpg">
-<link rel="apple-touch-icon" href="bg.jpg">
+<link rel="icon" href="bg.jpg">
 <link rel="manifest" href="manifest.json">
 <title>🛒 רשימת קניות</title>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Heebo:wght@400;600;700;900&display=swap');
 *{margin:0;padding:0;box-sizing:border-box}
 body{
-  background-image: url("bg.jpg");
-  background-size: cover;
-  background-position: center;
-  background-attachment: fixed;
+  background-image:url("bg.jpg");
+  background-size:cover;background-position:center;background-attachment:fixed;
   font-family:Heebo,sans-serif;direction:rtl;color:#1b5e20;min-height:100vh;padding-bottom:80px
 }
-body::before{
-  content:'';
-  position:fixed;
-  inset:0;
-  background:rgba(255,255,255,0.82);
-  z-index:0;
-  pointer-events:none;
-}
-#hdr,#stats,#sec-filter,#list,#cart-view,#bottom{position:relative;z-index:1;}
-
-/* HEADER */
+body::before{content:'';position:fixed;inset:0;background:rgba(255,255,255,0.85);z-index:0;pointer-events:none}
 #hdr{background:linear-gradient(135deg,#2e7d32,#1b5e20);padding:12px 16px;
   position:sticky;top:0;z-index:99;box-shadow:0 2px 8px rgba(0,0,0,.2)}
 #hdr h1{color:#fff;font-size:20px;font-weight:900;margin-bottom:8px;display:flex;align-items:center;gap:8px}
-#search{width:100%;padding:8px 14px;border-radius:20px;border:none;
-  font-family:Heebo;font-size:15px;background:rgba(255,255,255,.15);
-  color:#fff;outline:none;placeholder-color:#fff}
+#hdr h1 img{height:36px;width:36px;object-fit:cover;border-radius:50%;border:2px solid rgba(255,255,255,.4)}
+#search{width:100%;padding:8px 14px;border-radius:20px;border:none;font-family:Heebo;font-size:15px;background:rgba(255,255,255,.15);color:#fff;outline:none}
 #search::placeholder{color:rgba(255,255,255,.6)}
-#search:focus{background:rgba(255,255,255,.25)}
-
-/* STATS BAR */
-#stats{background:#fff;padding:10px 16px;display:flex;gap:12px;
-  align-items:center;border-bottom:1px solid #c8e6c9;flex-wrap:wrap}
+#stats{background:#fff;padding:10px 16px;display:flex;gap:10px;align-items:center;
+  border-bottom:1px solid #c8e6c9;flex-wrap:wrap;position:sticky;top:80px;z-index:98}
 .stat{font-size:13px;font-weight:600;color:#388e3c}
-.stat span{font-size:16px;font-weight:900;color:#1b5e20}
+.stat span{font-size:15px;font-weight:900;color:#1b5e20}
 #show-cart-btn{margin-right:auto;background:#2e7d32;color:#fff;border:none;
-  border-radius:20px;padding:6px 16px;font-family:Heebo;font-size:13px;
-  font-weight:700;cursor:pointer;transition:all .2s}
-#show-cart-btn:hover{background:#1b5e20}
+  border-radius:20px;padding:6px 14px;font-family:Heebo;font-size:13px;font-weight:700;cursor:pointer}
 #show-cart-btn.active{background:#f44336}
-
-/* SECTION FILTER */
-#sec-filter{padding:10px 16px;display:flex;gap:8px;overflow-x:auto;
-  background:#fff;border-bottom:1px solid #c8e6c9;scroll-behavior:smooth}
+#sec-filter{padding:8px 14px;display:flex;gap:6px;overflow-x:auto;
+  background:#fff;border-bottom:1px solid #c8e6c9;position:sticky;top:132px;z-index:97}
 #sec-filter::-webkit-scrollbar{display:none}
 .sf-btn{background:#e8f5e9;border:1.5px solid #a5d6a7;color:#2e7d32;
-  border-radius:20px;padding:5px 12px;font-family:Heebo;font-size:12px;
-  font-weight:700;cursor:pointer;white-space:nowrap;flex-shrink:0;transition:all .2s}
-.sf-btn.active{background:#2e7d32;color:#fff;border-color:#1b5e20}
-.sf-btn:hover{background:#c8e6c9}
-
-/* SECTIONS */
-#list{padding:12px 14px;display:grid;gap:12px}
-.section-card{background:#fff;border-radius:14px;overflow:hidden;
-  box-shadow:0 2px 8px rgba(0,0,0,.06)}
-.sec-header{padding:10px 16px;background:#e8f5e9;display:flex;
-  align-items:center;justify-content:space-between;cursor:pointer;
-  border-bottom:1px solid #c8e6c9}
+  border-radius:20px;padding:4px 10px;font-family:Heebo;font-size:12px;font-weight:700;
+  cursor:pointer;white-space:nowrap;flex-shrink:0}
+.sf-btn.active,.sf-btn:hover{background:#2e7d32;color:#fff;border-color:#1b5e20}
+#list,#cart-view{padding:12px 14px;display:grid;gap:10px;position:relative;z-index:1}
+#cart-view{display:none}
+#list.hide{display:none}
+#cart-view.show{display:grid}
+.section-card{background:#fff;border-radius:14px;overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,.06)}
+.sec-header{padding:10px 16px;background:#e8f5e9;display:flex;align-items:center;
+  justify-content:space-between;cursor:pointer;border-bottom:1px solid #c8e6c9}
 .sec-title{font-size:14px;font-weight:900;color:#1b5e20;display:flex;align-items:center;gap:6px}
 .sec-count{font-size:12px;color:#388e3c;font-weight:600}
 .sec-check-all{background:#2e7d32;color:#fff;border:none;border-radius:10px;
   padding:3px 10px;font-family:Heebo;font-size:11px;font-weight:700;cursor:pointer}
-
-/* ITEMS */
 .items-list{padding:4px 0}
-.item{display:flex;align-items:center;padding:10px 16px;gap:12px;
-  border-bottom:1px solid #f1f8e9;transition:background .15s;cursor:pointer}
+.item{display:flex;align-items:center;padding:9px 14px;gap:10px;
+  border-bottom:1px solid #f1f8e9;transition:background .15s}
 .item:last-child{border-bottom:none}
 .item:hover{background:#f9fbe7}
-.item.checked{background:#f1f8e9;opacity:.65}
+.item.checked{background:#f1f8e9}
 .item.checked .item-name{text-decoration:line-through;color:#81c784}
+.item.collected{background:#e8f5fe}
+.item.checked.collected{background:#e8ffe8}
 .cb{width:22px;height:22px;border-radius:6px;border:2px solid #a5d6a7;
   flex-shrink:0;display:flex;align-items:center;justify-content:center;
-  background:#fff;transition:all .15s}
+  background:#fff;cursor:pointer;transition:all .15s}
 .item.checked .cb{background:#2e7d32;border-color:#2e7d32}
 .cb::after{content:'✓';color:#fff;font-size:13px;font-weight:900;display:none}
 .item.checked .cb::after{display:block}
-.item-name{font-size:14px;font-weight:600;flex:1;line-height:1.3}
-
-/* CART VIEW */
-#cart-view{display:none;padding:12px 14px}
-#cart-view.show{display:block}
-#list.hide{display:none}
-.cart-section{background:#fff;border-radius:14px;margin-bottom:12px;overflow:hidden;
-  box-shadow:0 2px 8px rgba(0,0,0,.06)}
-.cart-sec-title{padding:10px 16px;background:#e8f5e9;font-size:14px;
-  font-weight:900;color:#1b5e20}
-.cart-item{padding:10px 16px;border-bottom:1px solid #f1f8e9;
-  font-size:14px;font-weight:600;display:flex;align-items:center;gap:8px}
+.item-name{font-size:14px;font-weight:600;flex:1;line-height:1.3;cursor:pointer}
+.item-actions{display:flex;gap:4px;align-items:center;flex-shrink:0}
+.collect-btn{width:30px;height:30px;border-radius:50%;border:2px solid #b2ebf2;
+  display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:900;
+  color:#0097a7;background:#fff;cursor:pointer;transition:all .15s}
+.collect-btn.done{background:#0097a7;border-color:#0097a7;color:#fff}
+.edit-btn,.del-btn{width:26px;height:26px;border-radius:50%;border:none;
+  display:flex;align-items:center;justify-content:center;font-size:12px;
+  cursor:pointer;transition:all .15s;background:transparent;color:#aaa}
+.edit-btn:hover{background:#fff9c4;color:#f57f17}
+.del-btn:hover{background:#ffebee;color:#f44336}
+.cart-section{background:#fff;border-radius:14px;overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,.06)}
+.cart-sec-title{padding:10px 16px;background:#e8f5e9;font-size:14px;font-weight:900;color:#1b5e20}
+.cart-item{padding:10px 14px;border-bottom:1px solid #f1f8e9;font-size:14px;
+  font-weight:600;display:flex;align-items:center;gap:8px}
 .cart-item:last-child{border-bottom:none}
-.cart-item::before{content:'✓';color:#2e7d32;font-weight:900;font-size:14px}
-
-/* BOTTOM BAR */
+.cart-item.collected-item{background:#e3f2fd}
+.cart-item .ci-dot{width:8px;height:8px;border-radius:50%;background:#a5d6a7;flex-shrink:0}
+.cart-item.collected-item .ci-dot{background:#0097a7}
 #bottom{position:fixed;bottom:0;right:0;left:0;background:#fff;
-  padding:10px 16px;display:flex;gap:8px;border-top:1px solid #c8e6c9;
-  box-shadow:0 -2px 8px rgba(0,0,0,.08)}
+  padding:10px 16px;display:flex;gap:6px;border-top:1px solid #c8e6c9;
+  box-shadow:0 -2px 8px rgba(0,0,0,.08);z-index:99}
 .bot-btn{flex:1;padding:10px;border:none;border-radius:10px;font-family:Heebo;
-  font-size:13px;font-weight:700;cursor:pointer;transition:all .2s}
+  font-size:13px;font-weight:700;cursor:pointer}
+#btn-add{background:#e8f5e9;color:#1b5e20}
 #btn-clear{background:#ffebee;color:#c62828}
-#btn-reset{background:#e8f5e9;color:#2e7d32}
+#btn-reset{background:#f3e5f5;color:#6a1b9a}
 #btn-share{background:#2e7d32;color:#fff}
+
+/* Modal */
+.modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);
+  z-index:200;align-items:center;justify-content:center}
+.modal-overlay.open{display:flex}
+.modal-box{background:#fff;border-radius:20px;padding:24px;max-width:340px;
+  width:90%;direction:rtl}
+.modal-title{font-size:17px;font-weight:900;color:#1b5e20;margin-bottom:16px}
+.modal-label{font-size:12px;font-weight:700;color:#388e3c;display:block;margin-bottom:4px}
+.modal-input{width:100%;padding:10px 14px;border:2px solid #c8e6c9;border-radius:10px;
+  font-family:Heebo;font-size:15px;direction:rtl;outline:none;margin-bottom:12px}
+.modal-input:focus{border-color:#2e7d32}
+.modal-select{width:100%;padding:10px 14px;border:2px solid #c8e6c9;border-radius:10px;
+  font-family:Heebo;font-size:14px;direction:rtl;outline:none;background:#fff;margin-bottom:20px}
+.modal-btns{display:flex;gap:8px}
+.modal-cancel{flex:1;padding:11px;border:2px solid #c8e6c9;border-radius:10px;
+  background:#fff;font-family:Heebo;font-size:14px;font-weight:700;color:#388e3c;cursor:pointer}
+.modal-ok{flex:2;padding:11px;border:none;border-radius:10px;background:#2e7d32;
+  color:#fff;font-family:Heebo;font-size:14px;font-weight:700;cursor:pointer}
+#toast{position:fixed;bottom:80px;left:50%;transform:translateX(-50%) translateY(100px);
+  background:#1a3a1a;color:#fff;padding:10px 22px;border-radius:28px;font-weight:700;
+  font-size:14px;box-shadow:0 4px 16px rgba(0,0,0,.2);
+  transition:transform .3s cubic-bezier(.34,1.56,.64,1);z-index:999;white-space:nowrap}
+#toast.show{transform:translateX(-50%) translateY(0)}
 </style>
 </head>
 <body>
 
 <div id="hdr">
-  <h1><img src="bg.jpg" style="height:40px;width:40px;object-fit:cover;border-radius:50%;border:2px solid rgba(255,255,255,.4)"> רשימת קניות <button id="inst-btn" onclick="window._install&&window._install()" style="display:none;background:rgba(255,255,255,.25);border:1px solid rgba(255,255,255,.5);color:#fff;border-radius:16px;padding:4px 12px;font-family:Heebo;font-size:12px;font-weight:700;cursor:pointer;margin-right:auto">📲 התקן</button></h1>
-  <input type="text" id="search" placeholder="🔍 חפש מוצר..." oninput="filterItems()">
+  <h1>
+    <img src="bg.jpg" alt="">
+    🛒 רשימת קניות
+  </h1>
+  <input type="text" id="search" placeholder="🔍 חפש מוצר..." oninput="render()">
 </div>
 
 <div id="stats">
   <div class="stat">סה"כ: <span id="st-total">0</span></div>
   <div class="stat">✅ נבחרו: <span id="st-checked">0</span></div>
   <div class="stat">🛒 נותרו: <span id="st-left">0</span></div>
-  <button id="show-cart-btn" onclick="toggleCart()">🛒 הצג עגלה</button>
+  <div class="stat">🧺 נאספו: <span id="st-collected">0</span></div>
+  <button id="show-cart-btn" onclick="toggleCart()">🛒 עגלה</button>
 </div>
 
 <div id="sec-filter">
@@ -146,325 +154,441 @@ body::before{
 <div id="list"></div>
 <div id="cart-view"></div>
 
-<div id="bottom">
-  <button class="bot-btn" id="btn-clear" onclick="clearChecked()">🗑️ נקה נבחרים</button>
-  <button class="bot-btn" id="btn-reset" onclick="resetAll()">↺ אפס הכל</button>
-  <button class="bot-btn" id="btn-share" onclick="shareList()">📤 שתף עגלה</button>
+<!-- ADD MODAL -->
+<div class="modal-overlay" id="add-modal">
+  <div class="modal-box">
+    <div class="modal-title">➕ הוסף מוצר חדש</div>
+    <label class="modal-label">שם המוצר</label>
+    <input type="text" class="modal-input" id="new-name" placeholder="לדוגמה: ריבת תות">
+    <label class="modal-label">מחלקה</label>
+    <select class="modal-select" id="new-sec">
+      <option value="0">🧴 ניקוי ורטבים</option>
+      <option value="1">🥦 ירקות ופירות</option>
+      <option value="2">🥩 בשר ודגים</option>
+      <option value="3">🥤 שתיה</option>
+      <option value="4">🥫 שימורים</option>
+      <option value="5" selected>🌾 יבשים ומתוקים</option>
+      <option value="6">🧀 חלב וחטיפים</option>
+      <option value="7">🧻 ניקיון וצרכים</option>
+      <option value="8">🍞 לחמים</option>
+      <option value="9">⭐ מיוחד</option>
+      <option value="10">🛒 כללי</option>
+    </select>
+    <div class="modal-btns">
+      <button class="modal-cancel" onclick="closeModal('add-modal')">ביטול</button>
+      <button class="modal-ok" onclick="confirmAdd()">➕ הוסף</button>
+    </div>
+  </div>
 </div>
+
+<!-- EDIT MODAL -->
+<div class="modal-overlay" id="edit-modal">
+  <div class="modal-box">
+    <div class="modal-title">✏️ עריכת מוצר</div>
+    <label class="modal-label">שם המוצר</label>
+    <input type="text" class="modal-input" id="edit-name" placeholder="שם המוצר">
+    <label class="modal-label">מחלקה</label>
+    <select class="modal-select" id="edit-sec">
+      <option value="0">🧴 ניקוי ורטבים</option>
+      <option value="1">🥦 ירקות ופירות</option>
+      <option value="2">🥩 בשר ודגים</option>
+      <option value="3">🥤 שתיה</option>
+      <option value="4">🥫 שימורים</option>
+      <option value="5">🌾 יבשים ומתוקים</option>
+      <option value="6">🧀 חלב וחטיפים</option>
+      <option value="7">🧻 ניקיון וצרכים</option>
+      <option value="8">🍞 לחמים</option>
+      <option value="9">⭐ מיוחד</option>
+      <option value="10">🛒 כללי</option>
+    </select>
+    <div class="modal-btns">
+      <button class="modal-cancel" onclick="closeModal('edit-modal')">ביטול</button>
+      <button class="modal-ok" onclick="confirmEdit()">💾 שמור</button>
+    </div>
+  </div>
+</div>
+
+<div id="bottom">
+  <button class="bot-btn" id="btn-add" onclick="openModal('add-modal')">➕ הוסף</button>
+  <button class="bot-btn" id="btn-clear" onclick="clearAll()">🗑️ נקה</button>
+  <button class="bot-btn" id="btn-reset" onclick="resetAll()">↺ אפס</button>
+  <button class="bot-btn" id="btn-share" onclick="shareList()">📤 שתף</button>
+</div>
+
+<div id="toast"></div>
 
 <script>
 const SECTIONS = {
-  0:"🧴 ניקוי ורטבים", 1:"🥦 ירקות ופירות", 2:"🥩 בשר ודגים",
-  3:"🥤 שתיה", 4:"🥫 שימורים", 5:"🌾 יבשים ומתוקים",
-  6:"🧀 חלב וחטיפים", 7:"🧻 ניקיון וצרכים", 8:"🍞 לחמים",
-  9:"⭐ מיוחד", 10:"🛒 כללי"
+  0:"🧴 ניקוי ורטבים",1:"🥦 ירקות ופירות",2:"🥩 בשר ודגים",
+  3:"🥤 שתיה",4:"🥫 שימורים",5:"🌾 יבשים ומתוקים",
+  6:"🧀 חלב וחטיפים",7:"🧻 ניקיון וצרכים",8:"🍞 לחמים",
+  9:"⭐ מיוחד",10:"🛒 כללי"
 };
 
 const ALL_ITEMS = [
-  {sec:0, name:"חומץ", checked:false},
-  {sec:0, name:"מרכך, נוזל  כביסה ואבקה.כביסכל", checked:false},
-  {sec:0, name:"כדוריות לכביסה לנור", checked:false},
-  {sec:0, name:"טבליות למדיח+ מלח+ מבריק", checked:false},
-  {sec:0, name:"פיסטוק", checked:false},
-  {sec:0, name:"פפריקה", checked:false},
-  {sec:0, name:"פפריקה חריפה", checked:false},
-  {sec:0, name:"זרעי חרדל", checked:false},
-  {sec:0, name:"זרעי סלרי", checked:false},
-  {sec:0, name:"זרעי כוסברה", checked:false},
-  {sec:0, name:"עלי דפנה", checked:false},
-  {sec:0, name:"אבקת שום", checked:false},
-  {sec:0, name:"אבקת בצל", checked:false},
-  {sec:0, name:"מיונז כמהין, לחיץ היינץ", checked:false},
-  {sec:0, name:"רוטב שום+איולי", checked:false},
-  {sec:0, name:"דובוני גומי", checked:false},
-  {sec:0, name:"רוצב צילי מתוק", checked:false},
-  {sec:0, name:"רוטב קיסר", checked:false},
-  {sec:0, name:"רוטב פטריות", checked:false},
-  {sec:0, name:"אגוז מוסקט", checked:false},
-  {sec:0, name:"חוויג לבישול", checked:false},
-  {sec:0, name:"מיוקטשופ", checked:false},
-  {sec:0, name:"מגבונים למיבש", checked:false},
-  {sec:0, name:"טחינה", checked:false},
-  {sec:0, name:"חרדל דיזון גרגירים", checked:false},
-  {sec:0, name:"כמיויונז", checked:false},
-  {sec:0, name:"רוטב לסלט", checked:false},
-  {sec:0, name:"קליה בקבוקון מסיר כתמים", checked:false},
-  {sec:0, name:"קטשופ", checked:false},
-  {sec:0, name:"סבון כלים", checked:false},
-  {sec:0, name:"פלפל חריף סודני", checked:false},
-  {sec:0, name:"סודה לשתיה", checked:false},
-  {sec:1, name:"מלפפון *4", checked:false},
-  {sec:1, name:"עגבניה * 4", checked:false},
-  {sec:1, name:"גמבה", checked:false},
-  {sec:1, name:"גזר", checked:false},
-  {sec:1, name:"כרוב", checked:false},
-  {sec:1, name:"פטריות", checked:false},
-  {sec:1, name:"תפוזים", checked:false},
-  {sec:1, name:"בצל", checked:false},
-  {sec:1, name:"בצל סגול", checked:false},
-  {sec:1, name:"חסה *1", checked:false},
-  {sec:1, name:"נקטרינה", checked:false},
-  {sec:1, name:"עגבניות שרי", checked:false},
-  {sec:1, name:"תפוח אדמה", checked:false},
-  {sec:1, name:"אבוקדו", checked:false},
-  {sec:1, name:"מנגו בוסר", checked:false},
-  {sec:1, name:"לימון", checked:false},
-  {sec:1, name:"חציל - 2", checked:false},
-  {sec:1, name:"בצל ירוק", checked:false},
-  {sec:1, name:"בצל שאלוט", checked:false},
-  {sec:1, name:"שום רק סולו", checked:false},
-  {sec:1, name:"תפוח אדמה קטנים", checked:false},
-  {sec:1, name:"תירס", checked:false},
-  {sec:1, name:"גינגר", checked:false},
-  {sec:1, name:"במיה טריה", checked:false},
-  {sec:1, name:"כרובית", checked:false},
-  {sec:1, name:"ברוקולי", checked:false},
-  {sec:1, name:"אננס", checked:false},
-  {sec:1, name:"כוסברה", checked:false},
-  {sec:1, name:"טימין", checked:false},
-  {sec:1, name:"מלון", checked:false},
-  {sec:1, name:"פלפל חריף לפחות 10", checked:false},
-  {sec:1, name:"פומלה", checked:false},
-  {sec:1, name:"בזיליקום", checked:false},
-  {sec:1, name:"דלעת ערמונים", checked:false},
-  {sec:1, name:"תפוח", checked:false},
-  {sec:1, name:"תרד", checked:false},
-  {sec:1, name:"עגבניות מגי", checked:false},
-  {sec:1, name:"סלרי / כרפס", checked:false},
-  {sec:1, name:"קישוא", checked:false},
-  {sec:1, name:"תותים", checked:false},
-  {sec:1, name:"פטרוזיליה", checked:false},
-  {sec:1, name:"בטטה*2", checked:false},
-  {sec:1, name:"סלק", checked:false},
-  {sec:1, name:"ענבים", checked:false},
-  {sec:1, name:"מנגו", checked:false},
-  {sec:1, name:"אבטיח", checked:false},
-  {sec:1, name:"דלעת", checked:false},
-  {sec:1, name:"קולורבי", checked:false},
-  {sec:2, name:"שמן 1", checked:false},
-  {sec:2, name:"פרגיות", checked:false},
-  {sec:2, name:"סלמון", checked:false},
-  {sec:2, name:"חזה עוף לא שניצל חזה עוף שלם", checked:false},
-  {sec:2, name:"שמן זית", checked:false},
-  {sec:2, name:"מוח", checked:false},
-  {sec:2, name:"בשר מישמיש - ???", checked:false},
-  {sec:2, name:"סבון לגוף", checked:false},
-  {sec:2, name:"בשר טחון דל שומן", checked:false},
-  {sec:2, name:"פירות קפואים", checked:false},
-  {sec:2, name:"אנטריקוט", checked:false},
-  {sec:2, name:"נרות נשמה", checked:false},
-  {sec:2, name:"כרעיים *2", checked:false},
-  {sec:2, name:"מח עצם", checked:false},
-  {sec:2, name:"בשר מספר 5", checked:false},
-  {sec:2, name:"צ\'יפס", checked:false},
-  {sec:2, name:"בורקס תפ\"א + גבינה פילו", checked:false},
-  {sec:2, name:"דגים מושט ופורל", checked:false},
-  {sec:2, name:"בשר צלעות", checked:false},
-  {sec:2, name:"אפונה", checked:false},
-  {sec:2, name:"עלי סיגר", checked:false},
-  {sec:2, name:"דפי פילו", checked:false},
-  {sec:2, name:"שעועית קפואה", checked:false},
-  {sec:3, name:"ויטמינצ\'יק ענבים+דיאט", checked:false},
-  {sec:3, name:"סודה + שתיה + ספרייט", checked:false},
-  {sec:3, name:"אלוורה בטעם תפוח - חצי ליטר", checked:false},
-  {sec:3, name:"פחיות זירו קולה יש מבצע", checked:false},
-  {sec:3, name:"מים מינרלים 1 ליטר עם פקק", checked:false},
-  {sec:3, name:"ששית מים גדולה", checked:false},
-  {sec:4, name:"רסק עגבניות מוטי (פריכוז)", checked:false},
-  {sec:4, name:"טונה", checked:false},
-  {sec:4, name:"תירס", checked:false},
-  {sec:4, name:"חומוס שימורים", checked:false},
-  {sec:4, name:"לבבות דקל", checked:false},
-  {sec:4, name:"מנות חמות פירה ונודלס עוף", checked:false},
-  {sec:4, name:"זיתים מעורב", checked:false},
-  {sec:4, name:"סילאן", checked:false},
-  {sec:4, name:"פסטו", checked:false},
-  {sec:4, name:"דבש", checked:false},
-  {sec:4, name:"מלפפון חמוץ", checked:false},
-  {sec:4, name:"סויה טריאקי", checked:false},
-  {sec:4, name:"מרק עוף", checked:false},
-  {sec:4, name:"חומץ בלסמי", checked:false},
-  {sec:4, name:"תבלינים - כמון", checked:false},
-  {sec:4, name:"תמרים", checked:false},
-  {sec:4, name:"ממרח תמרים", checked:false},
-  {sec:5, name:"פסטה ארוכה - ספגטי וביסלי", checked:false},
-  {sec:5, name:"אורז בסמטי", checked:false},
-  {sec:5, name:"קמח לבן מנופה", checked:false},
-  {sec:5, name:"סוכר בקופסא", checked:false},
-  {sec:5, name:"מלח", checked:false},
-  {sec:5, name:"נוטלה או חיקוי", checked:false},
-  {sec:5, name:"אטריות זכוכית/שעועית", checked:false},
-  {sec:5, name:"עוגות אישיות", checked:false},
-  {sec:5, name:"בורגול", checked:false},
-  {sec:5, name:"פרורי לחם", checked:false},
-  {sec:5, name:"קוסקוס", checked:false},
-  {sec:5, name:"חומוס גרגירים", checked:false},
-  {sec:5, name:"גלוקוז", checked:false},
-  {sec:5, name:"אינסטנט פודינג וניל", checked:false},
-  {sec:5, name:"דפי אורז", checked:false},
-  {sec:5, name:"קמח לפיצה", checked:false},
-  {sec:5, name:"שוקולד ציפס *2", checked:false},
-  {sec:5, name:"תה ירוק", checked:false},
-  {sec:5, name:"תה קינמון", checked:false},
-  {sec:5, name:"צ\'אי מסאלה", checked:false},
-  {sec:5, name:"תה שחור", checked:false},
-  {sec:5, name:"סוכריות גומי בחבילה סגורה", checked:false},
-  {sec:5, name:"וופלות לפי התמונה", checked:false},
-  {sec:5, name:"אבקת סוכר", checked:false},
-  {sec:5, name:"סוכר חום כהה", checked:false},
-  {sec:5, name:"תמצית וניל", checked:false},
-  {sec:5, name:"אצבעות שוקולד", checked:false},
-  {sec:5, name:"נודלס כתום / נודלס טרי", checked:false},
-  {sec:5, name:"אבקת אפיה", checked:false},
-  {sec:5, name:"שמרים", checked:false},
-  {sec:5, name:"קטניות", checked:false},
-  {sec:5, name:"סולת", checked:false},
-  {sec:5, name:"קרוטונים", checked:false},
-  {sec:5, name:"אטריות", checked:false},
-  {sec:5, name:"שומשום", checked:false},
-  {sec:5, name:"פתיתים", checked:false},
-  {sec:5, name:"קקאו", checked:false},
-  {sec:5, name:"מלח גס", checked:false},
-  {sec:5, name:"קפה שחור", checked:false},
-  {sec:5, name:"אבקת שוקולית בשקית", checked:false},
-  {sec:5, name:"נס קפס של עלית", checked:false},
-  {sec:5, name:"קפסולות קפה", checked:false},
-  {sec:5, name:"שקדי מרק", checked:false},
-  {sec:5, name:"מרק תירס", checked:false},
-  {sec:5, name:"שוקולית", checked:false},
-  {sec:5, name:"אורז עגול", checked:false},
-  {sec:6, name:"חלב רגיל", checked:false},
-  {sec:6, name:"ביצים -3", checked:false},
-  {sec:6, name:"גבינת פרמזן+מוצרלה", checked:false},
-  {sec:6, name:"במבה", checked:false},
-  {sec:6, name:"גבינת שמנת 5% סימפוניה", checked:false},
-  {sec:6, name:"קוטג\' - 4 1% של תנובה", checked:false},
-  {sec:6, name:"גבינה צהובה 9% עדיף עמק", checked:false},
-  {sec:6, name:"שוגי פיטנס (להתקשר לקוץ\'), קראנץ\'", checked:false},
-  {sec:6, name:"חמאה * 200 גרם", checked:false},
-  {sec:6, name:"מחמאה * 200 גרם", checked:false},
-  {sec:6, name:"גבינה לבנה - 3", checked:false},
-  {sec:6, name:"גבינת שמנת 30%", checked:false},
-  {sec:6, name:"שוקו בשקית", checked:false},
-  {sec:6, name:"מיני נקניקיות", checked:false},
-  {sec:6, name:"שמנת לבישול - 1", checked:false},
-  {sec:6, name:"קסטות מיני", checked:false},
-  {sec:6, name:"טורטיות חומות בשבילי", checked:false},
-  {sec:6, name:"גבינות קשות (בולגרית/פטה עזים)", checked:false},
-  {sec:6, name:"שמנת להקצפה - 1", checked:false},
-  {sec:6, name:"גבינה צהובה 28%", checked:false},
-  {sec:6, name:"מעדן (0 אחוז, מעדן הגולן,מולר מילקי)", checked:false},
-  {sec:6, name:"מרגרינה", checked:false},
-  {sec:6, name:"פסטרמה לקוץ\'", checked:false},
-  {sec:6, name:"שמנת חמוצה 1000%", checked:false},
-  {sec:6, name:"חומוס", checked:false},
-  {sec:6, name:"פרכיות שוקלד חלב", checked:false},
-  {sec:6, name:"ביגלה מלח גדול * 2", checked:false},
-  {sec:6, name:"אוריאו", checked:false},
-  {sec:6, name:"דגנים סיני מיני מרובעים", checked:false},
-  {sec:6, name:"טריקס", checked:false},
-  {sec:6, name:"משקה קפה", checked:false},
-  {sec:6, name:"שוקו", checked:false},
-  {sec:6, name:"במבה אדומה", checked:false},
-  {sec:7, name:"קיסמי אוזניים", checked:false},
-  {sec:7, name:"נייר אפיה", checked:false},
-  {sec:7, name:"מגבונים - 1", checked:false},
-  {sec:7, name:"דלי מגבונים", checked:false},
-  {sec:7, name:"מפיות נייר", checked:false},
-  {sec:7, name:"שקיות לכריכים", checked:false},
-  {sec:7, name:"נייר טואלט", checked:false},
-  {sec:7, name:"מגב", checked:false},
-  {sec:7, name:"מצית לגז", checked:false},
-  {sec:7, name:"תחתוניות", checked:false},
-  {sec:7, name:"מפה שעוונית", checked:false},
-  {sec:7, name:"שק כביסה", checked:false},
-  {sec:7, name:"ניילון נצמד", checked:false},
-  {sec:7, name:"ספריי לעובש וניקוי ספות", checked:false},
-  {sec:7, name:"נוזל לניקוי שרותים", checked:false},
-  {sec:7, name:"ספריי לניקוי תנורים", checked:false},
-  {sec:7, name:"ספריי לחלונות בשקית", checked:false},
-  {sec:7, name:"צמר פלדה", checked:false},
-  {sec:7, name:"דיאודורנט", checked:false},
-  {sec:7, name:"קרחונים", checked:false},
-  {sec:7, name:"חוט דנטלי עם שעווה", checked:false},
-  {sec:7, name:"סקוטש לכלים", checked:false},
-  {sec:7, name:"קרם לחות לפנים", checked:false},
-  {sec:7, name:"נייר כסף", checked:false},
-  {sec:7, name:"קופסאות", checked:false},
-  {sec:7, name:"מגשי פלסטיק", checked:false},
-  {sec:7, name:"שיפודים", checked:false},
-  {sec:7, name:"שמפו", checked:false},
-  {sec:7, name:"קרם ידיים", checked:false},
-  {sec:7, name:"סלים דליס", checked:false},
-  {sec:7, name:"משחת שיניים", checked:false},
-  {sec:7, name:"חמגשיות גדולות", checked:false},
-  {sec:7, name:"קצף גילוח", checked:false},
-  {sec:7, name:"ניילון עם גומי לכיסוי קערות", checked:false},
-  {sec:8, name:"לחם מחמצת ללא תוספות -2", checked:false},
-  {sec:8, name:"לחם פשוט", checked:false},
-  {sec:8, name:"לחם בסגנון אמריקה - אנג\'ל.", checked:false},
-  {sec:8, name:"פיתות כוסמין", checked:false},
-  {sec:8, name:"פתי בר", checked:false},
-  {sec:8, name:"פרכיות פיטנס", checked:false},
-  {sec:9, name:"טריאקי קוג\'י", checked:false},
-  {sec:9, name:"אבקת טורשי", checked:false},
-  {sec:9, name:"שרימפס קפואים", checked:false},
-  {sec:9, name:"פקורינו רומנו", checked:false},
-  {sec:9, name:"300 גרם חזיר בגוש ולא בפרוסות", checked:false},
-  {sec:9, name:"טיפות לפטריה באצבע ומשחה לפטריות", checked:false},
-  {sec:9, name:"מיונז מיוחד", checked:false},
-  {sec:10, name:"קשים עבים", checked:false},
-  {sec:10, name:"ראמן ורוד", checked:false},
-  {sec:10, name:"מכונת קרח", checked:false},
-  {sec:10, name:"מיקרוגל", checked:false},
-  {sec:10, name:"כירה חשמלית", checked:false},
+  {sec:0, name:"חומץ", checked:false, collected:false},
+  {sec:0, name:"מרכך, נוזל  כביסה ואבקה.כביסכל", checked:false, collected:false},
+  {sec:0, name:"כדוריות לכביסה לנור", checked:false, collected:false},
+  {sec:0, name:"טבליות למדיח+ מלח+ מבריק", checked:false, collected:false},
+  {sec:0, name:"פיסטוק", checked:false, collected:false},
+  {sec:0, name:"פפריקה", checked:false, collected:false},
+  {sec:0, name:"פפריקה חריפה", checked:false, collected:false},
+  {sec:0, name:"זרעי חרדל", checked:false, collected:false},
+  {sec:0, name:"זרעי סלרי", checked:false, collected:false},
+  {sec:0, name:"זרעי כוסברה", checked:false, collected:false},
+  {sec:0, name:"עלי דפנה", checked:false, collected:false},
+  {sec:0, name:"אבקת שום", checked:false, collected:false},
+  {sec:0, name:"אבקת בצל", checked:false, collected:false},
+  {sec:0, name:"מיונז כמהין, לחיץ היינץ", checked:false, collected:false},
+  {sec:0, name:"רוטב שום+איולי", checked:false, collected:false},
+  {sec:0, name:"דובוני גומי", checked:false, collected:false},
+  {sec:0, name:"רוצב צילי מתוק", checked:false, collected:false},
+  {sec:0, name:"רוטב קיסר", checked:false, collected:false},
+  {sec:0, name:"רוטב פטריות", checked:false, collected:false},
+  {sec:0, name:"אגוז מוסקט", checked:false, collected:false},
+  {sec:0, name:"חוויג לבישול", checked:false, collected:false},
+  {sec:0, name:"מיוקטשופ", checked:false, collected:false},
+  {sec:0, name:"מגבונים למיבש", checked:false, collected:false},
+  {sec:0, name:"טחינה", checked:false, collected:false},
+  {sec:0, name:"חרדל דיזון גרגירים", checked:false, collected:false},
+  {sec:0, name:"כמיויונז", checked:false, collected:false},
+  {sec:0, name:"רוטב לסלט", checked:false, collected:false},
+  {sec:0, name:"קליה בקבוקון מסיר כתמים", checked:false, collected:false},
+  {sec:0, name:"קטשופ", checked:false, collected:false},
+  {sec:0, name:"סבון כלים", checked:false, collected:false},
+  {sec:0, name:"פלפל חריף סודני", checked:false, collected:false},
+  {sec:0, name:"סודה לשתיה", checked:false, collected:false},
+  {sec:1, name:"מלפפון *4", checked:false, collected:false},
+  {sec:1, name:"עגבניה * 4", checked:false, collected:false},
+  {sec:1, name:"גמבה", checked:false, collected:false},
+  {sec:1, name:"גזר", checked:false, collected:false},
+  {sec:1, name:"כרוב", checked:false, collected:false},
+  {sec:1, name:"פטריות", checked:false, collected:false},
+  {sec:1, name:"תפוזים", checked:false, collected:false},
+  {sec:1, name:"בצל", checked:false, collected:false},
+  {sec:1, name:"בצל סגול", checked:false, collected:false},
+  {sec:1, name:"חסה *1", checked:false, collected:false},
+  {sec:1, name:"נקטרינה", checked:false, collected:false},
+  {sec:1, name:"עגבניות שרי", checked:false, collected:false},
+  {sec:1, name:"תפוח אדמה", checked:false, collected:false},
+  {sec:1, name:"אבוקדו", checked:false, collected:false},
+  {sec:1, name:"מנגו בוסר", checked:false, collected:false},
+  {sec:1, name:"לימון", checked:false, collected:false},
+  {sec:1, name:"חציל - 2", checked:false, collected:false},
+  {sec:1, name:"בצל ירוק", checked:false, collected:false},
+  {sec:1, name:"בצל שאלוט", checked:false, collected:false},
+  {sec:1, name:"שום רק סולו", checked:false, collected:false},
+  {sec:1, name:"תפוח אדמה קטנים", checked:false, collected:false},
+  {sec:1, name:"תירס", checked:false, collected:false},
+  {sec:1, name:"גינגר", checked:false, collected:false},
+  {sec:1, name:"במיה טריה", checked:false, collected:false},
+  {sec:1, name:"כרובית", checked:false, collected:false},
+  {sec:1, name:"ברוקולי", checked:false, collected:false},
+  {sec:1, name:"אננס", checked:false, collected:false},
+  {sec:1, name:"כוסברה", checked:false, collected:false},
+  {sec:1, name:"טימין", checked:false, collected:false},
+  {sec:1, name:"מלון", checked:false, collected:false},
+  {sec:1, name:"פלפל חריף לפחות 10", checked:false, collected:false},
+  {sec:1, name:"פומלה", checked:false, collected:false},
+  {sec:1, name:"בזיליקום", checked:false, collected:false},
+  {sec:1, name:"דלעת ערמונים", checked:false, collected:false},
+  {sec:1, name:"תפוח", checked:false, collected:false},
+  {sec:1, name:"תרד", checked:false, collected:false},
+  {sec:1, name:"עגבניות מגי", checked:false, collected:false},
+  {sec:1, name:"סלרי / כרפס", checked:false, collected:false},
+  {sec:1, name:"קישוא", checked:false, collected:false},
+  {sec:1, name:"תותים", checked:false, collected:false},
+  {sec:1, name:"פטרוזיליה", checked:false, collected:false},
+  {sec:1, name:"בטטה*2", checked:false, collected:false},
+  {sec:1, name:"סלק", checked:false, collected:false},
+  {sec:1, name:"ענבים", checked:false, collected:false},
+  {sec:1, name:"מנגו", checked:false, collected:false},
+  {sec:1, name:"אבטיח", checked:false, collected:false},
+  {sec:1, name:"דלעת", checked:false, collected:false},
+  {sec:1, name:"קולורבי", checked:false, collected:false},
+  {sec:2, name:"שמן 1", checked:false, collected:false},
+  {sec:2, name:"פרגיות", checked:false, collected:false},
+  {sec:2, name:"סלמון", checked:false, collected:false},
+  {sec:2, name:"חזה עוף לא שניצל חזה עוף שלם", checked:false, collected:false},
+  {sec:2, name:"שמן זית", checked:false, collected:false},
+  {sec:2, name:"מוח", checked:false, collected:false},
+  {sec:2, name:"בשר מישמיש - ???", checked:false, collected:false},
+  {sec:2, name:"סבון לגוף", checked:false, collected:false},
+  {sec:2, name:"בשר טחון דל שומן", checked:false, collected:false},
+  {sec:2, name:"פירות קפואים", checked:false, collected:false},
+  {sec:2, name:"אנטריקוט", checked:false, collected:false},
+  {sec:2, name:"נרות נשמה", checked:false, collected:false},
+  {sec:2, name:"כרעיים *2", checked:false, collected:false},
+  {sec:2, name:"מח עצם", checked:false, collected:false},
+  {sec:2, name:"בשר מספר 5", checked:false, collected:false},
+  {sec:2, name:"צ\'יפס", checked:false, collected:false},
+  {sec:2, name:"בורקס תפ\"א + גבינה פילו", checked:false, collected:false},
+  {sec:2, name:"דגים מושט ופורל", checked:false, collected:false},
+  {sec:2, name:"בשר צלעות", checked:false, collected:false},
+  {sec:2, name:"אפונה", checked:false, collected:false},
+  {sec:2, name:"עלי סיגר", checked:false, collected:false},
+  {sec:2, name:"דפי פילו", checked:false, collected:false},
+  {sec:2, name:"שעועית קפואה", checked:false, collected:false},
+  {sec:3, name:"ויטמינצ\'יק ענבים+דיאט", checked:false, collected:false},
+  {sec:3, name:"סודה + שתיה + ספרייט", checked:false, collected:false},
+  {sec:3, name:"אלוורה בטעם תפוח - חצי ליטר", checked:false, collected:false},
+  {sec:3, name:"פחיות זירו קולה יש מבצע", checked:false, collected:false},
+  {sec:3, name:"מים מינרלים 1 ליטר עם פקק", checked:false, collected:false},
+  {sec:3, name:"ששית מים גדולה", checked:false, collected:false},
+  {sec:4, name:"רסק עגבניות מוטי (פריכוז)", checked:false, collected:false},
+  {sec:4, name:"טונה", checked:false, collected:false},
+  {sec:4, name:"תירס", checked:false, collected:false},
+  {sec:4, name:"חומוס שימורים", checked:false, collected:false},
+  {sec:4, name:"לבבות דקל", checked:false, collected:false},
+  {sec:4, name:"מנות חמות פירה ונודלס עוף", checked:false, collected:false},
+  {sec:4, name:"זיתים מעורב", checked:false, collected:false},
+  {sec:4, name:"סילאן", checked:false, collected:false},
+  {sec:4, name:"פסטו", checked:false, collected:false},
+  {sec:4, name:"דבש", checked:false, collected:false},
+  {sec:4, name:"מלפפון חמוץ", checked:false, collected:false},
+  {sec:4, name:"סויה טריאקי", checked:false, collected:false},
+  {sec:4, name:"מרק עוף", checked:false, collected:false},
+  {sec:4, name:"חומץ בלסמי", checked:false, collected:false},
+  {sec:4, name:"תבלינים - כמון", checked:false, collected:false},
+  {sec:4, name:"תמרים", checked:false, collected:false},
+  {sec:4, name:"ממרח תמרים", checked:false, collected:false},
+  {sec:5, name:"פסטה ארוכה - ספגטי וביסלי", checked:false, collected:false},
+  {sec:5, name:"אורז בסמטי", checked:false, collected:false},
+  {sec:5, name:"קמח לבן מנופה", checked:false, collected:false},
+  {sec:5, name:"סוכר בקופסא", checked:false, collected:false},
+  {sec:5, name:"מלח", checked:false, collected:false},
+  {sec:5, name:"נוטלה או חיקוי", checked:false, collected:false},
+  {sec:5, name:"אטריות זכוכית/שעועית", checked:false, collected:false},
+  {sec:5, name:"עוגות אישיות", checked:false, collected:false},
+  {sec:5, name:"בורגול", checked:false, collected:false},
+  {sec:5, name:"פרורי לחם", checked:false, collected:false},
+  {sec:5, name:"קוסקוס", checked:false, collected:false},
+  {sec:5, name:"חומוס גרגירים", checked:false, collected:false},
+  {sec:5, name:"גלוקוז", checked:false, collected:false},
+  {sec:5, name:"אינסטנט פודינג וניל", checked:false, collected:false},
+  {sec:5, name:"דפי אורז", checked:false, collected:false},
+  {sec:5, name:"קמח לפיצה", checked:false, collected:false},
+  {sec:5, name:"שוקולד ציפס *2", checked:false, collected:false},
+  {sec:5, name:"תה ירוק", checked:false, collected:false},
+  {sec:5, name:"תה קינמון", checked:false, collected:false},
+  {sec:5, name:"צ\'אי מסאלה", checked:false, collected:false},
+  {sec:5, name:"תה שחור", checked:false, collected:false},
+  {sec:5, name:"סוכריות גומי בחבילה סגורה", checked:false, collected:false},
+  {sec:5, name:"וופלות לפי התמונה", checked:false, collected:false},
+  {sec:5, name:"אבקת סוכר", checked:false, collected:false},
+  {sec:5, name:"סוכר חום כהה", checked:false, collected:false},
+  {sec:5, name:"תמצית וניל", checked:false, collected:false},
+  {sec:5, name:"אצבעות שוקולד", checked:false, collected:false},
+  {sec:5, name:"נודלס כתום / נודלס טרי", checked:false, collected:false},
+  {sec:5, name:"אבקת אפיה", checked:false, collected:false},
+  {sec:5, name:"שמרים", checked:false, collected:false},
+  {sec:5, name:"קטניות", checked:false, collected:false},
+  {sec:5, name:"סולת", checked:false, collected:false},
+  {sec:5, name:"קרוטונים", checked:false, collected:false},
+  {sec:5, name:"אטריות", checked:false, collected:false},
+  {sec:5, name:"שומשום", checked:false, collected:false},
+  {sec:5, name:"פתיתים", checked:false, collected:false},
+  {sec:5, name:"קקאו", checked:false, collected:false},
+  {sec:5, name:"מלח גס", checked:false, collected:false},
+  {sec:5, name:"קפה שחור", checked:false, collected:false},
+  {sec:5, name:"אבקת שוקולית בשקית", checked:false, collected:false},
+  {sec:5, name:"נס קפס של עלית", checked:false, collected:false},
+  {sec:5, name:"קפסולות קפה", checked:false, collected:false},
+  {sec:5, name:"שקדי מרק", checked:false, collected:false},
+  {sec:5, name:"מרק תירס", checked:false, collected:false},
+  {sec:5, name:"שוקולית", checked:false, collected:false},
+  {sec:5, name:"אורז עגול", checked:false, collected:false},
+  {sec:6, name:"חלב רגיל", checked:false, collected:false},
+  {sec:6, name:"ביצים -3", checked:false, collected:false},
+  {sec:6, name:"גבינת פרמזן+מוצרלה", checked:false, collected:false},
+  {sec:6, name:"במבה", checked:false, collected:false},
+  {sec:6, name:"גבינת שמנת 5% סימפוניה", checked:false, collected:false},
+  {sec:6, name:"קוטג\' - 4 1% של תנובה", checked:false, collected:false},
+  {sec:6, name:"גבינה צהובה 9% עדיף עמק", checked:false, collected:false},
+  {sec:6, name:"שוגי פיטנס (להתקשר לקוץ\'), קראנץ\'", checked:false, collected:false},
+  {sec:6, name:"חמאה * 200 גרם", checked:false, collected:false},
+  {sec:6, name:"מחמאה * 200 גרם", checked:false, collected:false},
+  {sec:6, name:"גבינה לבנה - 3", checked:false, collected:false},
+  {sec:6, name:"גבינת שמנת 30%", checked:false, collected:false},
+  {sec:6, name:"שוקו בשקית", checked:false, collected:false},
+  {sec:6, name:"מיני נקניקיות", checked:false, collected:false},
+  {sec:6, name:"שמנת לבישול - 1", checked:false, collected:false},
+  {sec:6, name:"קסטות מיני", checked:false, collected:false},
+  {sec:6, name:"טורטיות חומות בשבילי", checked:false, collected:false},
+  {sec:6, name:"גבינות קשות (בולגרית/פטה עזים)", checked:false, collected:false},
+  {sec:6, name:"שמנת להקצפה - 1", checked:false, collected:false},
+  {sec:6, name:"גבינה צהובה 28%", checked:false, collected:false},
+  {sec:6, name:"מעדן (0 אחוז, מעדן הגולן,מולר מילקי)", checked:false, collected:false},
+  {sec:6, name:"מרגרינה", checked:false, collected:false},
+  {sec:6, name:"פסטרמה לקוץ\'", checked:false, collected:false},
+  {sec:6, name:"שמנת חמוצה 1000%", checked:false, collected:false},
+  {sec:6, name:"חומוס", checked:false, collected:false},
+  {sec:6, name:"פרכיות שוקלד חלב", checked:false, collected:false},
+  {sec:6, name:"ביגלה מלח גדול * 2", checked:false, collected:false},
+  {sec:6, name:"אוריאו", checked:false, collected:false},
+  {sec:6, name:"דגנים סיני מיני מרובעים", checked:false, collected:false},
+  {sec:6, name:"טריקס", checked:false, collected:false},
+  {sec:6, name:"משקה קפה", checked:false, collected:false},
+  {sec:6, name:"שוקו", checked:false, collected:false},
+  {sec:6, name:"במבה אדומה", checked:false, collected:false},
+  {sec:7, name:"קיסמי אוזניים", checked:false, collected:false},
+  {sec:7, name:"נייר אפיה", checked:false, collected:false},
+  {sec:7, name:"מגבונים - 1", checked:false, collected:false},
+  {sec:7, name:"דלי מגבונים", checked:false, collected:false},
+  {sec:7, name:"מפיות נייר", checked:false, collected:false},
+  {sec:7, name:"שקיות לכריכים", checked:false, collected:false},
+  {sec:7, name:"נייר טואלט", checked:false, collected:false},
+  {sec:7, name:"מגב", checked:false, collected:false},
+  {sec:7, name:"מצית לגז", checked:false, collected:false},
+  {sec:7, name:"תחתוניות", checked:false, collected:false},
+  {sec:7, name:"מפה שעוונית", checked:false, collected:false},
+  {sec:7, name:"שק כביסה", checked:false, collected:false},
+  {sec:7, name:"ניילון נצמד", checked:false, collected:false},
+  {sec:7, name:"ספריי לעובש וניקוי ספות", checked:false, collected:false},
+  {sec:7, name:"נוזל לניקוי שרותים", checked:false, collected:false},
+  {sec:7, name:"ספריי לניקוי תנורים", checked:false, collected:false},
+  {sec:7, name:"ספריי לחלונות בשקית", checked:false, collected:false},
+  {sec:7, name:"צמר פלדה", checked:false, collected:false},
+  {sec:7, name:"דיאודורנט", checked:false, collected:false},
+  {sec:7, name:"קרחונים", checked:false, collected:false},
+  {sec:7, name:"חוט דנטלי עם שעווה", checked:false, collected:false},
+  {sec:7, name:"סקוטש לכלים", checked:false, collected:false},
+  {sec:7, name:"קרם לחות לפנים", checked:false, collected:false},
+  {sec:7, name:"נייר כסף", checked:false, collected:false},
+  {sec:7, name:"קופסאות", checked:false, collected:false},
+  {sec:7, name:"מגשי פלסטיק", checked:false, collected:false},
+  {sec:7, name:"שיפודים", checked:false, collected:false},
+  {sec:7, name:"שמפו", checked:false, collected:false},
+  {sec:7, name:"קרם ידיים", checked:false, collected:false},
+  {sec:7, name:"סלים דליס", checked:false, collected:false},
+  {sec:7, name:"משחת שיניים", checked:false, collected:false},
+  {sec:7, name:"חמגשיות גדולות", checked:false, collected:false},
+  {sec:7, name:"קצף גילוח", checked:false, collected:false},
+  {sec:7, name:"ניילון עם גומי לכיסוי קערות", checked:false, collected:false},
+  {sec:8, name:"לחם מחמצת ללא תוספות -2", checked:false, collected:false},
+  {sec:8, name:"לחם פשוט", checked:false, collected:false},
+  {sec:8, name:"לחם בסגנון אמריקה - אנג\'ל.", checked:false, collected:false},
+  {sec:8, name:"פיתות כוסמין", checked:false, collected:false},
+  {sec:8, name:"פתי בר", checked:false, collected:false},
+  {sec:8, name:"פרכיות פיטנס", checked:false, collected:false},
+  {sec:9, name:"טריאקי קוג\'י", checked:false, collected:false},
+  {sec:9, name:"אבקת טורשי", checked:false, collected:false},
+  {sec:9, name:"שרימפס קפואים", checked:false, collected:false},
+  {sec:9, name:"פקורינו רומנו", checked:false, collected:false},
+  {sec:9, name:"300 גרם חזיר בגוש ולא בפרוסות", checked:false, collected:false},
+  {sec:9, name:"טיפות לפטריה באצבע ומשחה לפטריות", checked:false, collected:false},
+  {sec:9, name:"מיונז מיוחד", checked:false, collected:false},
+  {sec:10, name:"קשים עבים", checked:false, collected:false},
+  {sec:10, name:"ראמן ורוד", checked:false, collected:false},
+  {sec:10, name:"מכונת קרח", checked:false, collected:false},
+  {sec:10, name:"מיקרוגל", checked:false, collected:false},
+  {sec:10, name:"כירה חשמלית", checked:false, collected:false},
+  {sec:5, name:"עוגת פילסברי", checked:false, collected:false},
 ];
 
-let items = JSON.parse(localStorage.getItem('shopping_v1') || 'null') || ALL_ITEMS.map(i=>({...i}));
+let items = JSON.parse(localStorage.getItem('shopping_v3')||'null') || ALL_ITEMS.map(i=>({...i}));
+items.forEach(i=>{ if(!i.collected) i.collected=false; });
+
 let activeSec = -1;
 let cartMode = false;
+let editIdx = -1;
 
-function save() { localStorage.setItem('shopping_v1', JSON.stringify(items)); }
+function save() { localStorage.setItem('shopping_v3', JSON.stringify(items)); }
 
+// ── TOGGLE SELECTED ────────────────────────────────────────────
 function toggle(idx) {
   items[idx].checked = !items[idx].checked;
   save(); render();
 }
 
+// ── TOGGLE COLLECTED ───────────────────────────────────────────
+function toggleCollect(idx) {
+  items[idx].collected = !items[idx].collected;
+  save(); render();
+}
+
+// ── DELETE ─────────────────────────────────────────────────────
+function deleteItem(idx) {
+  const name = items[idx].name;
+  items.splice(idx, 1);
+  save(); render();
+  toast('🗑️ ' + name + ' הוסר');
+}
+
+// ── EDIT ───────────────────────────────────────────────────────
+function openEdit(idx) {
+  editIdx = idx;
+  document.getElementById('edit-name').value = items[idx].name;
+  document.getElementById('edit-sec').value = items[idx].sec;
+  openModal('edit-modal');
+}
+function confirmEdit() {
+  const name = document.getElementById('edit-name').value.trim();
+  if(!name) return;
+  items[editIdx].name = name;
+  items[editIdx].sec = +document.getElementById('edit-sec').value;
+  save(); closeModal('edit-modal'); render();
+  toast('✅ עודכן');
+}
+
+// ── ADD ────────────────────────────────────────────────────────
+function confirmAdd() {
+  const name = document.getElementById('new-name').value.trim();
+  if(!name) { document.getElementById('new-name').style.borderColor='#f44336'; return; }
+  const sec = +document.getElementById('new-sec').value;
+  items.push({sec, name, checked:true, collected:false, custom:true});
+  save(); closeModal('add-modal');
+  activeSec = sec;
+  document.querySelectorAll('.sf-btn').forEach(b=>b.classList.toggle('active',+b.dataset.sec===sec));
+  render();
+  toast('✅ ' + name + ' נוסף!');
+}
+
+// ── MODALS ─────────────────────────────────────────────────────
+function openModal(id) {
+  document.getElementById(id).classList.add('open');
+  if(id==='add-modal') {
+    document.getElementById('new-name').value='';
+    setTimeout(()=>document.getElementById('new-name').focus(),100);
+  }
+}
+function closeModal(id) {
+  document.getElementById(id).classList.remove('open');
+}
+
+// ── FILTER ─────────────────────────────────────────────────────
+function filterSec(sec) {
+  activeSec = sec;
+  document.querySelectorAll('.sf-btn').forEach(b=>b.classList.toggle('active',+b.dataset.sec===sec));
+  render();
+}
+
+// ── CHECK ALL IN SECTION ───────────────────────────────────────
 function checkAllSec(sec) {
-  const secItems = items.filter(i=>i.sec===sec);
-  const allChecked = secItems.every(i=>i.checked);
+  const visible = items.filter(i=>i.sec===sec);
+  const allChecked = visible.every(i=>i.checked);
   items.forEach((item,i)=>{ if(item.sec===sec) items[i].checked=!allChecked; });
   save(); render();
 }
 
-function filterSec(sec) {
-  activeSec = sec;
-  document.querySelectorAll('.sf-btn').forEach(b=>{
-    b.classList.toggle('active', +b.dataset.sec===sec);
-  });
-  render();
-}
-
-function filterItems() { render(); }
-
+// ── TOGGLE CART VIEW ───────────────────────────────────────────
 function toggleCart() {
   cartMode = !cartMode;
   const btn = document.getElementById('show-cart-btn');
-  btn.textContent = cartMode ? '📋 הצג הכל' : '🛒 הצג עגלה';
+  btn.textContent = cartMode ? '📋 רשימה' : '🛒 עגלה';
   btn.classList.toggle('active', cartMode);
   document.getElementById('list').classList.toggle('hide', cartMode);
   document.getElementById('cart-view').classList.toggle('show', cartMode);
   if(cartMode) renderCart();
 }
 
+// ── RENDER LIST ────────────────────────────────────────────────
 function render() {
   const q = document.getElementById('search').value.trim().toLowerCase();
   const listEl = document.getElementById('list');
-  
-  // Group by section
+
   const secs = {};
-  items.forEach((item, idx) => {
+  items.forEach((item,idx) => {
     if(activeSec !== -1 && item.sec !== activeSec) return;
     if(q && !item.name.toLowerCase().includes(q)) return;
     if(!secs[item.sec]) secs[item.sec] = [];
@@ -475,23 +599,29 @@ function render() {
   Object.keys(secs).sort((a,b)=>+a-+b).forEach(sec => {
     const secItems = secs[sec];
     const checkedCount = secItems.filter(i=>i.checked).length;
+    const collectedCount = secItems.filter(i=>i.collected).length;
     const div = document.createElement('div');
     div.className = 'section-card';
     div.innerHTML = `
-      <div class="sec-header" onclick="toggleSec(${sec})">
+      <div class="sec-header">
         <div class="sec-title">
           ${SECTIONS[sec]}
-          <span class="sec-count">${checkedCount}/${secItems.length}</span>
+          <span class="sec-count">${checkedCount}/${secItems.length} ${collectedCount>0?'· 🧺'+collectedCount:''}</span>
         </div>
-        <button class="sec-check-all" onclick="event.stopPropagation();checkAllSec(${sec})">
-          ${secItems.every(i=>i.checked)?'בטל הכל':'סמן הכל'}
-        </button>
+        <button class="sec-check-all" onclick="checkAllSec(${sec})">${secItems.every(i=>i.checked)?'בטל':'סמן הכל'}</button>
       </div>
-      <div class="items-list" id="sec-${sec}">
+      <div class="items-list">
         ${secItems.map(item=>`
-          <div class="item ${item.checked?'checked':''}" onclick="toggle(${item.idx})">
-            <div class="cb"></div>
-            <div class="item-name">${item.name}</div>
+          <div class="item ${item.checked?'checked':''} ${item.collected?'collected':''}">
+            <div class="cb" onclick="toggle(${item.idx})"></div>
+            <div class="item-name" onclick="toggle(${item.idx})">${item.name}</div>
+            <div class="item-actions">
+              <div class="collect-btn ${item.collected?'done':''}" onclick="toggleCollect(${item.idx})" title="נאסף">
+                ${item.collected?'✓':'🧺'}
+              </div>
+              <button class="edit-btn" onclick="openEdit(${item.idx})" title="עריכה">✏️</button>
+              <button class="del-btn" onclick="deleteItem(${item.idx})" title="מחק">🗑</button>
+            </div>
           </div>
         `).join('')}
       </div>
@@ -499,70 +629,114 @@ function render() {
     listEl.appendChild(div);
   });
 
-  // Update stats
+  // Stats
   const total = items.length;
   const checked = items.filter(i=>i.checked).length;
+  const collected = items.filter(i=>i.collected).length;
   document.getElementById('st-total').textContent = total;
   document.getElementById('st-checked').textContent = checked;
   document.getElementById('st-left').textContent = total - checked;
+  document.getElementById('st-collected').textContent = collected;
 
   if(cartMode) renderCart();
 }
 
+// ── RENDER CART ────────────────────────────────────────────────
 function renderCart() {
   const cartEl = document.getElementById('cart-view');
   const checked = items.filter(i=>i.checked);
   if(!checked.length) {
-    cartEl.innerHTML = '<div style="text-align:center;padding:40px;color:#81c784;font-size:16px;font-weight:700">🛒 העגלה ריקה<br>סמן מוצרים ברשימה</div>';
+    cartEl.innerHTML = '<div style="text-align:center;padding:40px;color:#81c784;font-size:16px;font-weight:700;background:#fff;border-radius:14px">🛒 העגלה ריקה<br><span style="font-size:13px;opacity:.7">סמן מוצרים ברשימה</span></div>';
     return;
   }
   const secs = {};
-  checked.forEach(item => {
+  items.forEach((item, gi) => {
+    if(!item.checked) return;
     if(!secs[item.sec]) secs[item.sec]=[];
-    secs[item.sec].push(item);
+    secs[item.sec].push({...item, _gi: gi});
   });
+  // Find global index for each item
   cartEl.innerHTML = Object.keys(secs).sort((a,b)=>+a-+b).map(sec=>`
     <div class="cart-section">
       <div class="cart-sec-title">${SECTIONS[sec]}</div>
-      ${secs[sec].map(i=>`<div class="cart-item">${i.name}</div>`).join('')}
+      ${secs[sec].map(i=>{
+        const gi = i._gi;
+        return `
+        <div class="cart-item ${i.collected?'collected-item':''}" id="ci-${gi}">
+          <div class="ci-dot"></div>
+          <span style="flex:1;font-size:14px;font-weight:600">${i.name}</span>
+          <button onclick="cartCollect(${gi})" style="
+            width:34px;height:34px;border-radius:50%;border:2px solid ${i.collected?'#0097a7':'#b2ebf2'};
+            background:${i.collected?'#0097a7':'#fff'};color:${i.collected?'#fff':'#0097a7'};
+            font-size:14px;font-weight:900;cursor:pointer;flex-shrink:0;
+            display:flex;align-items:center;justify-content:center"
+            title="${i.collected?'מסיר סימון':'סמן כנאסף'}">
+            ${i.collected?'✓':'🧺'}
+          </button>
+        </div>`;
+      }).join('')}
     </div>
   `).join('');
 }
 
-function clearChecked() {
-  if(!items.some(i=>i.checked)) return;
-  if(!confirm('לנקות את כל המסומנים?')) return;
-  items.forEach(i=>i.checked=false);
-  save(); render();
+// ── CLEAR / RESET ──────────────────────────────────────────────
+function cartCollect(idx) {
+  items[idx].collected = !items[idx].collected;
+  save();
+  renderCart();
+  // Also update stats
+  const collected = items.filter(i=>i.collected).length;
+  document.getElementById('st-collected').textContent = collected;
 }
 
+function clearAll() {
+  if(!items.some(i=>i.checked||i.collected)) return;
+  if(!confirm('לנקות את כל הסימונים?')) return;
+  items.forEach(i=>{i.checked=false;i.collected=false;});
+  save(); render(); toast('🗑️ נוקה');
+}
 function resetAll() {
-  if(!confirm('לאפס את כל הרשימה?')) return;
-  items = ALL_ITEMS.map(i=>({...i,checked:false}));
-  save(); render();
+  if(!confirm('לאפס את הרשימה לברירת מחדל? מוצרים שהוספת יימחקו!')) return;
+  items = ALL_ITEMS.map(i=>({...i,checked:false,collected:false}));
+  save(); render(); toast('↺ אופס');
 }
 
+// ── SHARE ──────────────────────────────────────────────────────
 function shareList() {
   const checked = items.filter(i=>i.checked);
   if(!checked.length) { alert('סמן מוצרים קודם!'); return; }
   const secs = {};
-  checked.forEach(i=>{ if(!secs[i.sec]) secs[i.sec]=[]; secs[i.sec].push(i.name); });
+  checked.forEach(i=>{ if(!secs[i.sec]) secs[i.sec]=[]; secs[i.sec].push(i); });
   let txt = '🛒 רשימת קניות:\n\n';
   Object.keys(secs).sort((a,b)=>+a-+b).forEach(s=>{
-    txt += SECTIONS[s]+':\n';
-    secs[s].forEach(n=>txt+='• '+n+'\n');
-    txt+='\n';
+    txt += SECTIONS[s] + ':\n';
+    secs[s].forEach(i=>txt+=(i.collected?'✓ ':'• ')+i.name+'\n');
+    txt += '\n';
   });
   if(navigator.share) { navigator.share({title:'רשימת קניות',text:txt}); }
-  else { navigator.clipboard.writeText(txt); alert('הועתק!'); }
+  else { navigator.clipboard?.writeText(txt).then(()=>toast('📋 הועתק!')); }
 }
 
-function toggleSec(sec) {
-  const el = document.getElementById('sec-'+sec);
-  if(el) el.style.display = el.style.display==='none'?'':'none';
+// ── TOAST ──────────────────────────────────────────────────────
+let toastT;
+function toast(m) {
+  const el=document.getElementById('toast');
+  el.textContent=m; el.classList.add('show');
+  clearTimeout(toastT); toastT=setTimeout(()=>el.classList.remove('show'),2500);
 }
 
-// Init
+// ── KEYBOARD ───────────────────────────────────────────────────
+document.addEventListener('keydown', e=>{
+  if(e.key==='Enter') {
+    if(document.getElementById('add-modal').classList.contains('open')) confirmAdd();
+    if(document.getElementById('edit-modal').classList.contains('open')) confirmEdit();
+  }
+  if(e.key==='Escape') {
+    closeModal('add-modal'); closeModal('edit-modal');
+  }
+});
+
+// ── INIT ───────────────────────────────────────────────────────
 render();
 </script>
 </body>
